@@ -1,0 +1,28 @@
+{
+    "name": "evans/filepicker-bundle",
+    "description": "Symfony Bundle for adding a file picker component to form inputs",
+    "keywords": ["wysiwyg", "ivorycke", "editor", "symfony2", "bundle", "sumfony3", "form", "filepicker", "picker", "media"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name":     "Evans Mwendwa",
+            "homepage": "https://github.com/evansmwendwa",
+            "email":    "evansmwendwa@live.com"
+        }
+    ],
+    "support": {
+        "email": "evansmwendwa@live.com",
+        "issues": "https://github.com/evansmwendwa/filepicker-bundle/issues"
+    },
+    "require": {
+        "php":             ">=5.4.0",
+        "symfony/symfony": ">=3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Evans\\FilepickerBundle\\": ""
+        }
+    },
+    "target-dir": "Evans/FilepickerBundle"
+}
