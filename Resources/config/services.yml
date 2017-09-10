@@ -1,0 +1,37 @@
+parameters:
+    file_chooser.upload_images: /uploads/images
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Evans\FilepickerBundle\:
+        resource: '../../*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../{Entity,Repository}'
+
+    evans_filepicker:
+        class: Evans\FilepickerBundle\Service\FileChooser
+        public: true
+        arguments:
+            $baseUrl: %file_chooser.upload_images%
+            $uploadDestination: '%kernel.root_dir%/../web%file_chooser.upload_images%'
+
+    Evans\FilepickerBundle\Service\FileChooser: "@evans_filepicker"
+
+    evans_filepicker_serializer:
+        class: Evans\FilepickerBundle\Service\Serializer
+        public: true
+
+    Evans\FilepickerBundle\Service\FileChooser: "@evans_filepicker_serializer"
+
+    evans_filepicker_twig_extension:
+        class: Evans\FilepickerBundle\Twig\EvansPickerExtension
+        public: true
+        tags:
+            - { name: twig.extension }
+
+    Evans\FilepickerBundle\Twig\EvansPickerExtension: "@evans_filepicker_twig_extension"

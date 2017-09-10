@@ -1,0 +1,9 @@
+evans_filepicker_list:
+    path:     /evans-filepicker-list
+    defaults: { _controller: EvansFilepickerBundle:Filepicker:list }
+    methods: [GET]
+
+evans_filepicker_upload:
+    path:     /evans-file-picker-upload
+    defaults: { _controller: EvansFilepickerBundle:Filepicker:upload }
+    methods: [POST]

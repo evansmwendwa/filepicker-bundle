@@ -1,0 +1,18 @@
+{% block filepicker_widget %}
+    {% spaceless %}
+    <div class="file_chooser_widget">
+
+        {{ block("hidden_widget") }}
+
+        <div class="chooser-thumbnail preview-thumb">
+            {% if (value|length > 0) %}
+                <img src="{{ value }}" id="chooser-preview-{{ id }}" />
+            {% else %}
+                <img id="chooser-preview-{{ id }}" />
+            {% endif %}
+        </div>
+
+        <button class="btn btn-primary open-file-chooser" type="button" data-id={{ id }}>Select File</button>
+    </div>
+    {% endspaceless %}
+{% endblock %}
