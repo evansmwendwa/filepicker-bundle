@@ -4,6 +4,11 @@
     "keywords": ["wysiwyg", "ivorycke", "editor", "symfony2", "bundle", "sumfony3", "form", "filepicker", "picker", "media"],
     "type": "symfony-bundle",
     "license": "MIT",
+    "version": "master",
+    "dist": {
+        "url": "git@github.com:evansmwendwa/filepicker-bundle.git",
+        "type": "git"
+    },
     "authors": [
         {
             "name":     "Evans Mwendwa",
