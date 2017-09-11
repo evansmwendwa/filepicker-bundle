@@ -1,5 +1,5 @@
 {
-    "name": "evans/filepicker-bundle",
+    "name": "evansmwendwa/filepicker-bundle",
     "description": "Symfony Bundle for adding a file picker component to form inputs",
     "keywords": ["wysiwyg", "ivorycke", "editor", "symfony2", "bundle", "sumfony3", "form", "filepicker", "picker", "media"],
     "type": "symfony-bundle",
