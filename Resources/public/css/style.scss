@@ -136,15 +136,15 @@ $header-height: 60px;
         }
 
         img {
-            display: inline-block;
-            width: 45px;
-            height: 45px;
+            display: inline;
+            width: 41px;
+            height: 41px;
             background: #000;
             border: none;
             object-fit: cover;
             border-radius: 3px;
             overflow: hidden;
-            margin: 0 2px;
+            margin: -3px 3px 0;
         }
     }
 

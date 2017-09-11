@@ -101,6 +101,16 @@ class Filepicker {
         msgBox.classList.add('hidden');
     }
 
+    truncate(n, len) {
+        var ext = n.substring(n.lastIndexOf(".") + 1, n.length).toLowerCase();
+        var filename = n.replace('.' + ext,'');
+        if(filename.length <= len) {
+            return n;
+        }
+        filename = filename.substr(0, len) + (n.length > len ? '[...]' : '');
+        return filename + '.' + ext;
+    };
+
     displayFiles() {
         try {
             const filesContainer = this.select(this.modalSelector + ' .file-list');
@@ -121,6 +131,15 @@ class Filepicker {
                         this.selectedFile = target.dataset.img;
                         this.clearMediaSelection();
                         target.classList.add('active');
+
+                        const fname = this.selectedFile.replace(/^.*[\\\/]/, '');
+                        const short_fn = this.truncate(fname, 10);
+                        this.select('.selected-preview').classList.remove('hidden');
+                        const p_img = this.select('.selected-preview img');
+                        p_img.src = this.selectedFile;
+
+                        const p_lbl = this.select('.selected-preview .filename');
+                        p_lbl.textContent = short_fn;
                     }
 
                     filesContainer.appendChild(thumbContainer);
