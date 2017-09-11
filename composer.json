@@ -25,5 +25,10 @@
             "Evans\\FilepickerBundle\\": ""
         }
     },
-    "target-dir": "Evans/FilepickerBundle"
+    "target-dir": "Evans/FilepickerBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "master"
+        }
+    }
 }
