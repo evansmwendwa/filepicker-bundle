@@ -22,6 +22,9 @@ class EvansFilepickerExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        // attach our config to global paramters
+        $container->setParameter('evans.filepicker.config', $config);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
