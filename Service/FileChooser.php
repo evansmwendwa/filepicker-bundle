@@ -23,12 +23,16 @@ class FileChooser
     protected $uploadDestination;
     protected $allowedMimeTypes;
 
-    public function __construct($baseUrl, $uploadDestination, $allowedMimeTypes = ['image/jpeg','image/png','image/gif']) {
+    public function __construct(ContainerInterface $container) {
 
-        $this->allowedMimeTypes = $allowedMimeTypes;
+        $appRoot = $container->getParameter('kernel.root_dir');
+        $config = $container->getParameter('evans.filepicker.config');
+
+        $this->allowedMimeTypes = $config['allowed_mimes'];
 
         $this->folders = [];
-        $this->baseUrl = $baseUrl;
+        $this->baseUrl = $config['uploads_destination'];
+        $uploadDestination = $appRoot.'/../web/'.ltrim($config['uploads_destination'],'/');
 
         $fs = new Filesystem();
         try {

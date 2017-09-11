@@ -1,6 +1,3 @@
-parameters:
-    file_chooser.upload_images: /uploads/images
-
 services:
     _defaults:
         autowire: true
@@ -17,8 +14,7 @@ services:
         class: Evans\FilepickerBundle\Service\FileChooser
         public: true
         arguments:
-            $baseUrl: %file_chooser.upload_images%
-            $uploadDestination: '%kernel.root_dir%/../web%file_chooser.upload_images%'
+            $container: "@service_container"
 
     Evans\FilepickerBundle\Service\FileChooser: "@evans_filepicker"
 
