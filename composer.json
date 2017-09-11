@@ -21,9 +21,10 @@
         "issues": "https://github.com/evansmwendwa/filepicker-bundle/issues"
     },
     "require": {
-        "php":             ">=5.4.0",
+        "php": ">=5.4.0",
         "symfony/symfony": ">=3.0",
-        "jms/serializer": "^1.6"
+        "jms/serializer": "^1.6",
+        "tightenco/collect": "^5.4"
     },
     "autoload": {
         "psr-4": {
