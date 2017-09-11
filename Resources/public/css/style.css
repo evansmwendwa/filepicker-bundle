@@ -105,6 +105,17 @@
       overflow: hidden;
       margin: -3px 3px 0; }
 
+.picker-modal-content .msg-box {
+  position: absolute;
+  top: 50%;
+  height: 50px;
+  margin: -25px 0 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  text-align: center; }
+  .picker-modal-content .msg-box.hidden {
+    display: none; }
 .picker-modal-content .file-list {
   display: block;
   position: absolute;
@@ -143,5 +154,11 @@
     height: 100%;
     object-fit: cover;
     border: 1px solid #fff; }
+
+.picker-uploader {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden; }
 
 /*# sourceMappingURL=style.css.map */

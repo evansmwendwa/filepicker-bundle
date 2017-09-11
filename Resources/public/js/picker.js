@@ -7,6 +7,7 @@ class Filepicker {
         this.files = [];
         this.filesLoaded = false;
         this.modalSelector = '';
+        this.busy = false;
     }
 
     select(selector) {
@@ -14,7 +15,7 @@ class Filepicker {
     }
 
     upload(data, updateProgress, transferComplete, transferFailed, transferCanceled) {
-        let xhr  = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         let form = new FormData();
         let method = 'POST';
 
@@ -22,8 +23,8 @@ class Filepicker {
             form.append(key, value);
         });
 
-        for(let i = 0; i < data.files.length; i++) {
-            form.append('chooserfiles['+ i +']', data.files[i]);
+        for (let i = 0; i < data.files.length; i++) {
+            form.append('chooserfiles[' + i + ']', data.files[i]);
         }
 
         xhr.addEventListener("progress", updateProgress);
@@ -48,11 +49,11 @@ class Filepicker {
     }
 
     /**
-    * @param modalSelector valid css selector for the modal.
-    * @param input Will be passed back to the callback as an argument.
-    * @param callback(file, input) Will be called after insert is clicked.
-    * @returns null - execute return via a callback
-    */
+     * @param modalSelector valid css selector for the modal.
+     * @param input Will be passed back to the callback as an argument.
+     * @param callback(file, input) Will be called after insert is clicked.
+     * @returns null - execute return via a callback
+     */
     pickFiles(modalSelector, input, callback) {
         this.modalSelector = modalSelector;
         const modal = this.select(modalSelector);
@@ -60,7 +61,7 @@ class Filepicker {
         // handle media insert
         const insertButton = this.select(modalSelector + ' .insert');
 
-        if(insertButton) {
+        if (insertButton) {
             insertButton.onclick = (e) => {
                 this.closeModal(modal);
                 callback(this.selectedFile, input);
@@ -70,7 +71,7 @@ class Filepicker {
         // handle close modal
         const closeBtn = this.select(modalSelector + ' .icon-close');
 
-        if(closeBtn) {
+        if (closeBtn) {
             closeBtn.onclick = (e) => {
                 this.selectedFile = '';
                 this.closeModal(modal);
@@ -90,21 +91,21 @@ class Filepicker {
     }
 
     showMessage(message) {
-        const msgBox = document.querySelector('#filepicker .msg-box');
+        const msgBox = document.querySelector(this.modalSelector + ' .msg-box');
         msgBox.innerHTML = message;
         msgBox.classList.remove('hidden');
     }
 
     clearMessage() {
-        const msgBox = document.querySelector('#filepicker .msg-box');
+        const msgBox = document.querySelector(this.modalSelector + ' .msg-box');
         msgBox.innerHTML = '';
         msgBox.classList.add('hidden');
     }
 
     truncate(n, len) {
         var ext = n.substring(n.lastIndexOf(".") + 1, n.length).toLowerCase();
-        var filename = n.replace('.' + ext,'');
-        if(filename.length <= len) {
+        var filename = n.replace('.' + ext, '');
+        if (filename.length <= len) {
             return n;
         }
         filename = filename.substr(0, len) + (n.length > len ? '[...]' : '');
@@ -115,9 +116,9 @@ class Filepicker {
         try {
             const filesContainer = this.select(this.modalSelector + ' .file-list');
 
-            if(filesContainer) {
+            if (filesContainer) {
                 filesContainer.innerHTML = '';
-                this.files.forEach((item) =>  {
+                this.files.forEach((item) => {
                     const thumbnail = document.createElement('img');
                     thumbnail.src = item.thumbnail_path;
 
@@ -154,16 +155,22 @@ class Filepicker {
     loadFiles(refresh) {
         refresh = refresh || false;
 
-        if(!this.filesLoaded || refresh) {
-            $.get(this.browseEndpoint,null,(data, status) => {
+        if (!this.filesLoaded || refresh) {
+
+            this.showMessage('Loading...');
+
+            $.get(this.browseEndpoint, null, (data, status) => {
                 this.files = data.files;
                 this.filesLoaded = true;
-                if(data.files.length < 1) {
+                if (data.files.length < 1) {
                     this.showMessage('No files found.');
                 } else {
                     this.displayFiles();
                 }
-            },'json');
+
+                this.clearMessage();
+
+            }, 'json');
         }
     }
 
@@ -176,22 +183,67 @@ class Filepicker {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-  const filePicker = new Filepicker();
-  const pickers = document.querySelectorAll('.open-file-chooser');
+    const filePicker = new Filepicker();
+    const pickers = document.querySelectorAll('.open-file-chooser');
 
-  pickers.forEach((item) => {
-      item.onclick = (e) => {
-          filePicker.pickFiles('#filepicker-modal', e.currentTarget, (file, button) => {
-              const id = button.dataset.id;
-              const targetInput = document.querySelector('#'+ id);
-              if(targetInput) {
-                  targetInput.value = file;
-              }
-              const targetPreview = document.querySelector('#chooser-preview-'+ id);
-              if(targetPreview) {
-                  targetPreview.src = file;
-              }
-          })
-      }
-  })
+    pickers.forEach((item) => {
+        item.onclick = (e) => {
+            filePicker.pickFiles('#filepicker-modal', e.currentTarget, (file, button) => {
+                const id = button.dataset.id;
+                const targetInput = document.querySelector('#' + id);
+                if (targetInput) {
+                    targetInput.value = file;
+                }
+                const targetPreview = document.querySelector('#chooser-preview-' + id);
+                if (targetPreview) {
+                    targetPreview.src = file;
+                }
+            })
+        }
+    });
+
+    const uploadInput = document.querySelector('.picker-uploader input[type=file]');
+
+    uploadInput.addEventListener('change', (e) => {
+        const files = e.currentTarget.files;
+
+        if (files.length) {
+            filePicker.showMessage('Please wait..');
+            filePicker.busy = true;
+
+            filePicker.upload({
+                data: [],
+                files: files
+            }, (e) => {
+                if (e.lengthComputable) {
+                    let percentComplete = e.loaded / e.total;
+                    filePicker.showMessage(percentComplete + '%');
+                }
+            }, (e) => {
+                filePicker.busy = false;
+                filePicker.clearMessage();
+                filePicker.loadFiles(true);
+            }, (e) => {
+                filePicker.showMessage('File upload error!');
+                filePicker.busy = false;
+            }, (e) => {
+                filePicker.clearMessage();
+                filePicker.busy = false;
+            });
+        }
+    });
+
+    const uploadButton = document.querySelector('.picker-upload-trigger');
+
+    uploadButton.onclick = (e) => {
+        if (filePicker.busy === false) {
+            uploadInput.click();
+        }
+    }
+
+    const refreshBtn = document.querySelector('.btn-refresh');
+    refreshBtn.onclick = (e) => {
+        filePicker.loadFiles(true);
+    }
+
 });
