@@ -30,10 +30,5 @@
         "psr-4": {
             "Evans\\FilepickerBundle\\": ""
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "master"
-        }
     }
 }
