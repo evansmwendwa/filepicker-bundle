@@ -67,7 +67,7 @@ Step 4: Register form theme in twig
 # Twig Configuration
 twig:
     form_themes:
-        - 'EvansFilepickerBundle::form/fields.html.twig'
+        - EvansFilepickerBundle::form/fields.html.twig
 ```
 
 Step 5: Load bundle assets in your Twig Template
@@ -84,6 +84,17 @@ Add these functions somewhere in your twig template. Can be base in you base tem
 ```
 # loads necessary css files
 {{ file_picker_init_css() }}
+```
+
+Step 6: Register FilepickerBundle Routes
+----------------------------------------
+
+```twig
+# app/config/routing.yml
+
+evans_filepicker:
+    resource: "@EvansFilepickerBundle/Resources/config/routing.yml"
+    prefix:   /
 ```
 
 ## Using the built in CKE Editor Plugin
