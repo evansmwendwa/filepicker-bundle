@@ -182,23 +182,18 @@ $header-height: 60px;
             cursor: pointer;
             border: 5px solid #fff;
             float: left;
+            background: #d7d7d7;
             @include animate(.25s);
 
             img {
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
+                object-fit: contain;
                 border: 1px solid #fff;
-                opacity: 0.8;
             }
 
             &.active {
                 border: 5px solid #0073aa;
-                box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px #0073aa
-
-                img {
-                    opacity: 1;
-                }
             }
         }
     }

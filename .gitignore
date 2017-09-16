@@ -41,3 +41,6 @@
 **/Entity/*~
 .DS_Store
 .php~
+.sass-cache
+.sass-cache/
+.sass-cache/*

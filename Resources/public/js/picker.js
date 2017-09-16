@@ -126,6 +126,8 @@ class Filepicker {
                     thumbContainer.dataset.img = item.url;
                     thumbContainer.classList.add('file-picker-thumbnail');
                     thumbContainer.appendChild(thumbnail);
+                    // set title to image filename
+                    thumbContainer.title = item.thumbnail_path.replace(/^.*[\\\/]/, '');
 
                     thumbContainer.onclick = (e) => {
                         let target = e.currentTarget;
@@ -134,7 +136,7 @@ class Filepicker {
                         target.classList.add('active');
 
                         const fname = this.selectedFile.replace(/^.*[\\\/]/, '');
-                        const short_fn = this.truncate(fname, 10);
+                        const short_fn = this.truncate(fname, 25);
                         this.select('.selected-preview').classList.remove('hidden');
                         const p_img = this.select('.selected-preview img');
                         p_img.src = this.selectedFile;
