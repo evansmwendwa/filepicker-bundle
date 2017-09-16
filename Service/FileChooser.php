@@ -98,7 +98,7 @@ class FileChooser
                 if($file instanceof UploadedFile) {
                     if(in_array($file->getMimeType(), $this->allowedMimeTypes)) {
                         $fileName = $file->getClientOriginalName();
-                        $file->move($uploadDestination, $fileName);
+                        $file->move($uploadDestination, $this->uniqueFilename($uploadDestination, $fileName));
                         $uploadedFiles[] = $file;
                     }
                 }
@@ -106,5 +106,16 @@ class FileChooser
         }
 
         return $uploadedFiles;
+    }
+
+    private function uniqueFilename($path, $filename) {
+        $res = "$path/$filename";
+        if (!file_exists($res)) return $res;
+        $fnameNoExt = pathinfo($filename,PATHINFO_FILENAME);
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+        $i = 1;
+        while(file_exists("$path/$fnameNoExt ($i).$ext")) $i++;
+        return "$fnameNoExt ($i).$ext";
     }
 }
