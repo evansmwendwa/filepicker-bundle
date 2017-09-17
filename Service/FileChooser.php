@@ -71,7 +71,12 @@ class FileChooser
         }
 
         $finder = new Finder();
-        $files = collect($finder->files()->in($path))->values();
+
+        $files = collect($finder->files()->in($path)->sort(
+            function($a, $b) {
+                return ($b->getMTime() - $a->getMTime());
+            }
+        ))->values();
 
         $files->transform(function($file) {
             $fi = new ChooserFile();
