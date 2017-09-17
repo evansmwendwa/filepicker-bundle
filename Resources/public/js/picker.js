@@ -209,6 +209,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const uploadInput = document.querySelector('.picker-uploader input[type=file]');
 
     uploadInput.addEventListener('change', (e) => {
+        if(filePicker.busy) return;
+
         const files = e.currentTarget.files;
 
         if (files.length) {
@@ -240,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const uploadButton = document.querySelector('.picker-upload-trigger');
 
     uploadButton.onclick = (e) => {
-        if (filePicker.busy === false) {
+        if (!filePicker.busy) {
             uploadInput.click();
         }
     }
