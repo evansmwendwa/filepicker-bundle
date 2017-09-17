@@ -191,14 +191,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
     pickers.forEach((item) => {
         item.onclick = (e) => {
             filePicker.pickFiles('#filepicker-modal', e.currentTarget, (file, button) => {
-                const id = button.dataset.id;
-                const targetInput = document.querySelector('#' + id);
-                if (targetInput) {
-                    targetInput.value = file;
-                }
-                const targetPreview = document.querySelector('#chooser-preview-' + id);
-                if (targetPreview) {
-                    targetPreview.src = file;
+                if(file) {
+                    const id = button.dataset.id;
+                    const targetInput = document.querySelector('#' + id);
+                    if (targetInput) {
+                        targetInput.value = file;
+                    }
+                    const targetPreview = document.querySelector('#chooser-preview-' + id);
+                    if (targetPreview) {
+                        targetPreview.src = file;
+                    }
                 }
             })
         }
