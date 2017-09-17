@@ -113,7 +113,8 @@
   left: 0;
   width: 100%;
   padding: 10px;
-  text-align: center; }
+  text-align: center;
+  z-index: 100; }
   .picker-modal-content .msg-box.hidden {
     display: none; }
 .picker-modal-content .file-list {
